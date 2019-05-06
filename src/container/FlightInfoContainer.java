@@ -1,4 +1,6 @@
 package container;
+import java.util.*;
+import entity.*;
 
 /**
  * 航班信息容器
@@ -7,11 +9,21 @@ package container;
  */
 public class FlightInfoContainer {
 
+	private Map<String,FlightInfo> container=null;
+	
 	/**
 	 * 构造方法
 	 */
 	public FlightInfoContainer() {
-		// TODO Auto-generated constructor stub
+		container=new TreeMap<String,FlightInfo>();
+	}
+
+	public Map<String, FlightInfo> getContainer() {
+		return container;
+	}
+
+	public void setContainer(Map<String, FlightInfo> container) {
+		this.container = container;
 	}
 
 }

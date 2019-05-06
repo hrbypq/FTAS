@@ -1,4 +1,5 @@
 package container;
+import java.util.*;
 
 /**
  * 机票容器
@@ -7,11 +8,21 @@ package container;
  */
 public class TicketContainer {
 
+	private Map<String,Integer> container=null;
+	
 	/**
 	 * 构造方法
 	 */
 	public TicketContainer() {
-		// TODO Auto-generated constructor stub
+		container=new TreeMap<String,Integer>();
+	}
+
+	public Map<String, Integer> getContainer() {
+		return container;
+	}
+
+	public void setContainer(Map<String, Integer> container) {
+		this.container = container;
 	}
 
 }

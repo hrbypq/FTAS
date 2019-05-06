@@ -9,7 +9,7 @@ import entity.*;
  */
 public class FlightInfoContainer {
 
-	private Map<String,FlightInfo> container=null;
+	private Map<String,FlightInfo> container=null;      //key为航班号
 	
 	/**
 	 * 构造方法

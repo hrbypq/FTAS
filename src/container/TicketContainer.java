@@ -8,7 +8,7 @@ import java.util.*;
  */
 public class TicketContainer {
 
-	private Map<String,Integer> container=null;
+	private Map<String,Integer> container=null;   //key为航班号
 	
 	/**
 	 * 构造方法

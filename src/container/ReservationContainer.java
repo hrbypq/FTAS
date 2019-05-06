@@ -9,7 +9,7 @@ import entity.*;
  */
 public class ReservationContainer {
 
-	private Map<String,List<Reservation>> container=null;
+	private Map<String,List<Reservation>> container=null;    //key为用户名
 	
 	/**
 	 * 构造方法

@@ -8,8 +8,8 @@ import entity.*;
  * @version 1.0
  */
 public class UserInfoContainer {
-
-	private Map<String,UserInfo> container=null;
+	
+	private Map<String,UserInfo> container=null;    //key为用户名
 	
 	/**
 	 * 构造方法

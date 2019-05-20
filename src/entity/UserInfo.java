@@ -2,7 +2,7 @@ package entity;
 
 /**
  * 用户信息实体类
- * @author
+ * @author ypq
  * @version 1.0
  */
 public class UserInfo implements Cloneable{
@@ -14,7 +14,6 @@ public class UserInfo implements Cloneable{
 	 * 无参构造方法
 	 */
 	public UserInfo() {
-		
 	}
 	
 	/**

@@ -2,7 +2,7 @@ package entity;
 
 /**
  * ∂©µ•¿‡
- * @author
+ * @author ypq
  * @version 1.0
  */
 public class Reservation {

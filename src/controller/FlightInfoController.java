@@ -1,4 +1,7 @@
 package controller;
+import java.util.Map;
+
+import container.*;
 import entity.*;
 
 /**
@@ -7,13 +10,15 @@ import entity.*;
  * @version 1.0
  */
 public class FlightInfoController {
-
+	private Map<String,FlightInfo> container=null;//用于操作容器的引用
 	/**
 	 * 构造方法
 	 */
-	public FlightInfoController() {
+	public FlightInfoController(Map<String,FlightInfo> container) {
+		this.container=container;
 		// TODO Auto-generated constructor stub
 	}
+	//参数列表里的container 从FlightInfoContainer的get方法获得
 
 	/**
 	 * 增加航班信息
@@ -29,7 +34,13 @@ public class FlightInfoController {
 	 * @return 若添加成功返回true
 	 */
 	public boolean createFlightInfo(String flightname,String company,double price,String takeofftime,String takeofflocation,String landtime,String landlocation,String pastime,String passlocation) {
-		return true;
+		FlightInfo new_flight=new FlightInfo (flightname,company,price,takeofftime,takeofflocation,landtime,landlocation,pastime,passlocation);
+		if(!container.containsKey(flightname)) {
+			container.put(flightname,new_flight);
+			return true;
+		}
+		else 
+			return false;
 	}
 	
 	/**
@@ -39,6 +50,7 @@ public class FlightInfoController {
 	 */
 	public FlightInfo searchFlightInfo(String flightname) {
 		FlightInfo obj=null;
+		obj=container.get(flightname);
 		return obj;
 	}
 	
@@ -56,7 +68,13 @@ public class FlightInfoController {
 	 * @return 若更新成功返回true
 	 */
 	public boolean updateFlightInfo(String flightname,String company,double price,String takeofftime,String takeofflocation,String landtime,String landlocation,String pastime,String passlocation) {
-		return true;
+		if(!container.containsKey(flightname))
+			return false;
+		else {
+			FlightInfo update_flight= new FlightInfo(flightname,company,price,takeofftime,takeofflocation,landtime,landlocation,pastime,passlocation);
+			container.put(flightname, update_flight);
+			return true;
+		}
 	}
 	
 	/**
@@ -65,7 +83,12 @@ public class FlightInfoController {
 	 * @return 是否删除成功
 	 */
 	public boolean deleteFlightInfo(String flightname) {
-		return true;
+		if(container.containsKey(flightname)) {
+			container.remove(flightname);
+			return true;
+		}
+		else
+		    return false;
 	}
 	
 }

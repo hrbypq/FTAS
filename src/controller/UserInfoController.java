@@ -1,17 +1,21 @@
 package controller;
-import entity.*;
+import java.util.Map;
 
+import container.*;
+import entity.*;
 /**
  * 用户信息控制类
  * @author
  * @version 1.0
  */
 public class UserInfoController {
-
+	private Map<String,UserInfo> container=null;
+	
 	/**
 	 * 构造方法
 	 */
-	public UserInfoController() {
+	public UserInfoController( Map<String,UserInfo> container) {
+		this.container=container;
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -22,7 +26,14 @@ public class UserInfoController {
 	 * @return 若创建成功返回true
 	 */
 	public boolean createAccount(String name,String passwd) {
-		return true;
+		if(container.containsKey(name))
+			return false;
+		else {
+			UserInfo new_user=new UserInfo(name,passwd);
+			container.put(name, new_user);
+			return true;
+		}
+		
 	}
 	
 	/**
@@ -33,6 +44,9 @@ public class UserInfoController {
 	 */
 	public UserInfo logIn(String name,String passwd) {
 		UserInfo obj=null;
+		obj=container.get(name);
+		if(obj.getPasswd()!=passwd)
+			obj=null;//密码错误，登陆失败
 		return obj;
 	}
 	

@@ -45,7 +45,7 @@ public class UserInfoController {
 	public UserInfo logIn(String name,String passwd) {
 		UserInfo obj=null;
 		obj=container.get(name);
-		if(obj.getPasswd()!=passwd)
+		if(passwd.equals(obj.getPasswd()))
 			obj=null;//ÃÜÂë´íÎó£¬µÇÂ½Ê§°Ü
 		return obj;
 	}

@@ -72,7 +72,8 @@ public class FlightInfoController {
 			return false;
 		else {
 			FlightInfo update_flight= new FlightInfo(flightname,company,price,takeofftime,takeofflocation,landtime,landlocation,pastime,passlocation);
-			container.put(flightname, update_flight);
+	        container.remove(flightname);
+	        container.put(flightname, update_flight);
 			return true;
 		}
 	}

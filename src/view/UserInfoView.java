@@ -1,5 +1,8 @@
 package view;
 
+import container.*;
+import entity.*;
+
 /**
  * 用户界面类
  * @author
@@ -8,10 +11,16 @@ package view;
 public class UserInfoView {
 
 	/**
-	 * 构造函数
+	 * 构造方法
 	 */
-	public UserInfoView() {
+	public UserInfoView(UserInfoContainer userinfoconatiner,UserInfo currentuser) {
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * 菜单
+	 */
+	public void showMenu() {
+		
+	}
 }

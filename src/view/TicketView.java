@@ -4,19 +4,19 @@ import container.*;
 import entity.*;
 
 /**
- * 航班信息界面类
+ * 票务界面类
  * @author
  * @version 1.0
  */
-public class FlightView {
-	
+public class TicketView {
+
 	/**
 	 * 构造方法
 	 */
-	public FlightView(FlightInfoContainer flightinfocontainer,UserInfo currentuser) {
+	public TicketView(FlightInfoContainer fligtinfocontainer,TicketContainer ticketconatiner,UserInfo currentuser) {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	/**
 	 * 菜单
 	 */

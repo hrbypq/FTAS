@@ -2,7 +2,7 @@ package view;
 
 import java.util.Scanner;
 
-import org.omg.CORBA.PRIVATE_MEMBER;
+//import org.omg.CORBA.PRIVATE_MEMBER;
 
 import container.*;
 import controller.*;
@@ -17,15 +17,18 @@ public class FlightView {
 	private FlightInfoContainer flightinfocontainer=null;
 	private UserInfo currentuser=null;
 	private FlightInfoController flightcontroller=null;
+	private TicketController ticketcontroller=null;
+	private TicketContainer ticketcontainer=null;
 	private Tools tools=null;
 	/**
 	 * 构造方法
 	 */
-	public FlightView(FlightInfoContainer flightinfocontainer,UserInfo currentuser) {
+	public FlightView(FlightInfoContainer flightinfocontainer,UserInfo currentuser,TicketContainer ticketcontainer,TicketController ticketcontroller) {
 		// TODO Auto-generated constructor stub
 		this.currentuser=currentuser;
 		this.flightinfocontainer=flightinfocontainer;
 		this.tools=new Tools();
+		ticketcontroller=new TicketController(ticketcontainer.getContainer(),null,flightinfocontainer.getContainer(),null);
 		flightcontroller=new FlightInfoController(flightinfocontainer.getContainer());
 	}
 	
@@ -66,15 +69,24 @@ public class FlightView {
 				break;
 			}
 			case 2:
-				/*
-				 * 票务管理
-				 */
+				this.setTicketMenu();
 			default:
 				break;
 			}
 		}
 		
 	}
+	private void setTicketMenu() {
+		// TODO Auto-generated method stub
+		System.out.println("请输入要设置的航班号");
+		Scanner scanner= new Scanner(System.in);
+		String flightname=scanner.nextLine();
+		System.out.println("请输入要设置的余票量");
+		int amount=scanner.nextInt();
+		ticketcontroller.setTicketAmount(flightname, amount);
+		return;
+	}
+
 	/**
 	 * 用户查询航班信息
 	 */

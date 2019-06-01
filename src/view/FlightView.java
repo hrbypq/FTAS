@@ -1,9 +1,6 @@
 package view;
 
 import java.util.Scanner;
-
-//import org.omg.CORBA.PRIVATE_MEMBER;
-
 import container.*;
 import controller.*;
 import entity.*;
@@ -14,20 +11,19 @@ import entity.*;
  * @version 1.0
  */
 public class FlightView {
+	
 	private FlightInfoContainer flightinfocontainer=null;
 	private UserInfo currentuser=null;
 	private FlightInfoController flightcontroller=null;
 	private TicketController ticketcontroller=null;
 	private TicketContainer ticketcontainer=null;
-	private Tools tools=null;
+	
 	/**
 	 * 构造方法
 	 */
-	public FlightView(FlightInfoContainer flightinfocontainer,UserInfo currentuser,TicketContainer ticketcontainer,TicketController ticketcontroller) {
-		// TODO Auto-generated constructor stub
+	public FlightView(FlightInfoContainer flightinfocontainer,UserInfo currentuser,TicketContainer ticketcontainer) {
 		this.currentuser=currentuser;
 		this.flightinfocontainer=flightinfocontainer;
-		this.tools=new Tools();
 		ticketcontroller=new TicketController(ticketcontainer.getContainer(),null,flightinfocontainer.getContainer(),null);
 		flightcontroller=new FlightInfoController(flightinfocontainer.getContainer());
 	}
@@ -36,86 +32,93 @@ public class FlightView {
 	 * 用户菜单
 	 */
 	public void showTouristMenu() {
-	    while(true) {
-	    	System.out.println("票务业务输入1，航班信息查询输入2,返回上层输入3\n");
-		    int input=Tools.inputInteger(1, 3);
-		    switch (input) {
-		    case 1:
-			   /*
-			     *票务
-			   */
-			      break;
-		     case 2:{
-		    	 this.flightTourMenu();
-		    	 break;
-		     }
-		     case 3:
-		    	 return;
-		     default:
-		    	 break;
-		     }
-	    }
+//	    while(true) {
+//	    	System.out.println("1.机票业务\n2.航班信息查询\n3.返回上一层");
+//		    int input=Tools.inputInteger(1,3);
+//		    switch (input) {
+//		    case 1:
+//			   /*
+//			     *票务
+//			   */
+//			      break;
+//		     case 2:{
+//		    	 this.flightTourMenu();
+//		    	 break;
+//		     }
+//		     case 3:
+//		    	 return;
+//		     }
+//	    }
+	    this.flightTourMenu();
 	}
+	
 	/**
 	 * 管理员菜单
 	 */
 	public void showAdminMenu() {
 		while(true) {
-			System.out.println("航班信息管理输入1，票务管理输入2,返回上层输入3\n");
-			int input=tools.inputInteger(1, 3);
+			System.out.println("1.航班信息管理\n2.票务管理\n3.返回上一层");
+			int input=Tools.inputInteger(1, 3);
+			if(input==3)     //返回上一层
+				break;
 			switch (input) {
 			case 1:{
 				this.flightInfoAdmin();
 				break;
 			}
-			case 2:
+			case 2:{
 				this.setTicketMenu();
-			default:
 				break;
+			}
 			}
 		}
 		
 	}
+	
+	@SuppressWarnings("resource")
 	private void setTicketMenu() {
-		// TODO Auto-generated method stub
 		System.out.println("请输入要设置的航班号");
 		Scanner scanner= new Scanner(System.in);
 		String flightname=scanner.nextLine();
 		System.out.println("请输入要设置的余票量");
 		int amount=scanner.nextInt();
-		ticketcontroller.setTicketAmount(flightname, amount);
-		return;
+		if(ticketcontroller.setTicketAmount(flightname, amount)) {
+			System.out.println("设置成功!");
+		}
+		else {
+			System.out.println("设置失败!");
+		}
 	}
 
 	/**
 	 * 用户查询航班信息
 	 */
 	private void flightTourMenu() {
-	while (true) {
-		System.out.println("根据航班号查询航班信息输入1，航班推荐输入2,返回上层输入3\n");
-		int input=Tools.inputInteger(1, 3);
-		switch (input) {
-		case 1:
-			this.searchFlight();
-			break;
-		case 2:{
-			/*
-			 * 推荐
-			 */
-			break;
-		}
-		case 3:
-			return;
-		default:
-			break;
-		}
-	}	
+		while (true) {
+			System.out.println("1.根据航班号查询航班信息\n2.航班推荐\n3.返回上一层");
+			int input=Tools.inputInteger(1, 3);
+			switch (input) {
+			case 1:
+				this.searchFlight();
+				break;
+			case 2:{
+				/*
+				 * 推荐
+				 */
+				System.out.println("施工中");
+				break;
+			}
+			case 3:
+				return;
+			}
+		}	
 	}
+	
 	/**
 	 * 管理员处理航班信息
 	 */
 	private void flightInfoAdmin() {
-		System.out.println("增加航班输入1，删除航班输入2,修改航班输入3,根据航班号查看航班输入4，退出输入5\n");
+		System.out.println("1.增加航班\n2.删除航班\n3.修改航班信息\n4.查看指定航班信息\n5.返回上一层");
 		int input=Tools.inputInteger(1, 5);
 		switch (input) {
 		case 1:{
@@ -136,8 +139,6 @@ public class FlightView {
 		}
 		case 5:
 			return;
-		default:
-			break;
 		}
 	}
 	
@@ -146,18 +147,29 @@ public class FlightView {
 	 */
 	private void printInfo(FlightInfo flight) {
 		System.out.println("航班号："+flight.getFlightname());
-		System.out.println("起飞机场："+flight.getTakeofflocation());
-		System.out.println("起飞时间："+flight.getTakeofftime());
-		System.out.println("降落机场："+flight.getLandlocation());
-		System.out.println("降落时间："+flight.getTakeofflocation());
 		System.out.println("航空公司："+flight.getCompany());
+		System.out.println("起飞城市："+flight.getTakeofflocation());
+		System.out.println("起飞时间："+flight.getTakeofftime());
+		System.out.println("降落城市："+flight.getLandlocation());
+		System.out.println("降落时间："+flight.getLandtime());
 		System.out.println("价格："+flight.getPrice());
+		if(flight.getPasslocation()==null||flight.getPasstime()==null||flight.getPasslocation().equals("null")||flight.getPasstime().equals("null")) {
+			System.out.println("经停城市：无");
+			System.out.println("经停时间：无");
+		}
+		else {
+			System.out.println("经停城市："+flight.getPasslocation());
+			System.out.println("经停时间："+flight.getPasstime());
+		}
+		System.out.println();
 	}
+	
 	/**
 	 * 根据航班号查询航班
 	 */
 	private void searchFlight() {
-		System.out.println("请输入要查询信息的航班号:\n");
+		System.out.println("请输入要查询信息的航班号:");
+		@SuppressWarnings("resource")
 		Scanner scanner =new Scanner(System.in);
 		String flightname=scanner.nextLine();
 		FlightInfo flight=flightcontroller.searchFlightInfo(flightname);
@@ -168,38 +180,59 @@ public class FlightView {
 			this.printInfo(flight);
 		}
 		}
+	
 	/**
 	 * 增加航班
 	 */
+	@SuppressWarnings("resource")
 	private void addFlight() {
+		Scanner scanner=new Scanner(System.in);
 		while(true) {
-			Scanner scanner=new Scanner(System.in);
-			System.out.println("请输入航班号\n");
+			System.out.println("请输入航班号:");
 			String flightname=scanner.nextLine();
-			System.out.println("请输入航空公司\n");
+			
+			System.out.println("请输入航空公司:");
 			String company=scanner.nextLine();
-			System.out.println("请输入价格\n ");
-			double price=scanner.nextDouble(); 
-			System.out.println("请输入起飞时间\n");
-			String takeofftime=scanner.nextLine();
-			System.out.println("请输入起飞机场 \n");
+			
+			System.out.println("请输入起飞城市:");
 			String takeofflocation=scanner.nextLine();
-			System.out.println("请输入降落时间\n");
-			String landtime=scanner.nextLine();
-			System.out.println("请输入降落地\n ");
+			
+			System.out.println("请输入起飞时间:");
+			String takeofftime=scanner.nextLine();
+			
+			System.out.println("请输入降落城市:");
 			String landlocation=scanner.nextLine();
-			System.out.println("请输入经停时间\n");
-			String passtime=scanner.nextLine();
-			System.out.println("请输入经停地\n");
+			
+			System.out.println("请输入降落时间:");
+			String landtime=scanner.nextLine();
+			
+			System.out.println("请输入价格:");
+			double price=scanner.nextDouble();
+			scanner=new Scanner(System.in);
+			
+			System.out.println("请输入经停城市:(若无请输入111)");
 			String passlocation=scanner.nextLine();
+			if(passlocation.equals("111"))
+				passlocation=null;
+			
+			System.out.println("请输入经停时间:(若无请输入111)");
+			String passtime=scanner.nextLine();
+			if(passtime.equals("111"))
+				passtime=null;
+			
 		    boolean whther_suceed=flightcontroller.createFlightInfo(flightname, company, price, takeofftime, takeofflocation, landtime, landlocation, passtime, passlocation);
-		    if(whther_suceed)
+		    if(whther_suceed) {
 		    	System.out.println("增加成功");
+		    	ticketcontroller.addFlight(flightname);
+		    	break;
+		    }
 		    else {
 				System.out.println("航班已存在");
+				break;
 			}
 		}
 	}
+	
 	/**
 	 * 修改航班
 	 */
@@ -211,31 +244,48 @@ public class FlightView {
 			String flightname=scanner.nextLine();
 			
 			if(flightcontroller.searchFlightInfo(flightname)!=null) {
-				System.out.println("请输入航空公司\n");
+				System.out.println("请输入航空公司:");
 				String company=scanner.nextLine();
-				System.out.println("请输入价格\n ");
-				double price=scanner.nextDouble(); 
-				System.out.println("请输入起飞时间\n");
-				String takeofftime=scanner.nextLine();
-				System.out.println("请输入起飞机场 \n");
+				
+				System.out.println("请输入起飞城市:");
 				String takeofflocation=scanner.nextLine();
-				System.out.println("请输入降落时间\n");
-				String landtime=scanner.nextLine();
-				System.out.println("请输入降落地\n ");
+				
+				System.out.println("请输入起飞时间:");
+				String takeofftime=scanner.nextLine();
+				
+				System.out.println("请输入降落城市:");
 				String landlocation=scanner.nextLine();
-				System.out.println("请输入经停时间\n");
-				String passtime=scanner.nextLine();
-				System.out.println("请输入经停地\n");
+				
+				System.out.println("请输入降落时间:");
+				String landtime=scanner.nextLine();
+				
+				System.out.println("请输入价格:");
+				double price=scanner.nextDouble();
+				scanner=new Scanner(System.in);
+				
+				System.out.println("请输入经停城市:(若无请输入111)");
 				String passlocation=scanner.nextLine();
+				if(passlocation.equals("111"))
+					passlocation=null;
+				
+				System.out.println("请输入经停时间:(若无请输入111)");
+				String passtime=scanner.nextLine();
+				if(passtime.equals("111"))
+					passtime=null;
+				
 			    boolean whther_suceed=flightcontroller.updateFlightInfo(flightname, company, price, takeofftime, takeofflocation, landtime, landlocation, passtime, passlocation);
-			    if(whther_suceed)
+			    if(whther_suceed) {
 			    	System.out.println("修改成功");
+			    	break;
+			    }
 			    else {
 					System.out.println("修改失败");
+					break;
 				}
 			}
 			else {
-				System.out.println("不存在此航班\n");
+				System.out.println("不存在此航班");
+				break;
 			}
 		}
 	}
@@ -249,8 +299,10 @@ public class FlightView {
 		System.out.println("请输入航班号\n");
 		String flightname=scanner.nextLine();
 		boolean whether_suceed=flightcontroller.deleteFlightInfo(flightname);
-		if(whether_suceed)
+		if(whether_suceed) {
 			System.out.println("删除成功\n");
+			ticketcontroller.deleteFlight(flightname);
+		}
 		else 
 			System.out.println("删除失败\n");
 	}

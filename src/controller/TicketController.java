@@ -45,7 +45,7 @@ public class TicketController {
 
 		if(!checkFlight(flightname)) {
 			return -1;
-		};
+		}
 		int ticket=container.get(flightname);
 		return ticket;
 	}
@@ -82,13 +82,13 @@ public class TicketController {
 		if(amount<0) {return false;}
 		if(amount==0) {
 			recommendFlightView(containerFlight.get(flightname).getTakeofflocation(), containerFlight.get(flightname).getLandlocation());
-			//reserveTicket(flightname, username);
 			return false;
 		}
 		setTicketAmount(flightname, amount-1);
 		addReservation(flightname,username);
 		return true;
 	}
+	
 	/**
 	 * 购票时为其添加订单
 	 * @param flightname
@@ -104,9 +104,11 @@ public class TicketController {
 		if(containerList.containsKey(username)) {
 			obj=containerList.get(username);
 		}
-		else {obj=null;}
+		else {
+			containerList.put(username, new ArrayList<Reservation>());
+			obj=containerList.get(username);
+		}
 		obj.add(newReservation);
-		containerList.put(username, obj);
 		return true;
 	}
 
@@ -186,7 +188,7 @@ public class TicketController {
     	boolean result=false;
     	for(int i=0;i<ticketlist.size();i++) {
     		Reservation target=ticketlist.get(i);
-    		if(target.getFlightname()==flightname) {
+    		if(target.getFlightname().equals(flightname)) {
     			result=true;
     			ticketlist.remove(i);
     		}//如果有该航班号 则删除该订单
@@ -211,7 +213,7 @@ public class TicketController {
     	while(titer.hasNext()){
     		FlightInfo info=null;
     		info=containerFlight.get(titer.next());
-    	   if(info.getLandlocation()==landlocation && info.getTakeofflocation()==takeofflocation) {
+    	   if(info.getLandlocation().equals(landlocation) && info.getTakeofflocation().equals(takeofflocation)) {
     		   targetflight.add(info);
     	   }
 		}
@@ -266,7 +268,7 @@ public class TicketController {
     }
 
     /**
-     	* 推荐航班
+         * 推荐航班
      * @param takeofflocation
      * @param landlocation
      */
@@ -298,5 +300,13 @@ public class TicketController {
 	System.out.println("价格："+flight.getPrice());
     }
 
+	//在添加或删除航班信息时同步更新票务表
+	public void addFlight(String flightname) {
+		container.put(flightname, 0);
+	}
+	
+	public void deleteFlight(String flightname) {
+		container.remove(flightname);
+	}
 }
 

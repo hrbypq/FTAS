@@ -23,6 +23,7 @@ public class Tools {
 	 */
 	public static int inputInteger(int lo,int hi) {
 		int input=0;
+		@SuppressWarnings("resource")
 		Scanner scanner=new Scanner(System.in);
 		while(true) {
 			try {
@@ -37,7 +38,7 @@ public class Tools {
 			}
 			break;
 		}
-		scanner.close();
+		//scanner.close();
 		return input;
 	}
 	

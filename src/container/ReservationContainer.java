@@ -56,7 +56,7 @@ public class ReservationContainer {
 				String username=key;
 				String flightname=obj.getFlightname();
 				String time=obj.getTime();
-				String insertion="insert into t_reservation values ("+username+","+flightname+","+time+")";
+				String insertion="insert into t_reservation values (\'"+username+"\',\'"+flightname+"\',\'"+time+"\')";
 				statement.executeUpdate(insertion);
 			}
 		}

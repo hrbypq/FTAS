@@ -36,7 +36,7 @@ public class UserInfoContainer {
 		String search="select * from t_userinfo";
 		ResultSet resultset=statement.executeQuery(search);
 		while(resultset.next()) {
-			String key=resultset.getString("username");
+			String key=resultset.getString("name");
 			UserInfo obj=new UserInfo(key,resultset.getString("passwd"));
 			this.container.put(key, obj);
 		}
@@ -52,7 +52,7 @@ public class UserInfoContainer {
 		for(String key:this.container.keySet()) {
 			String username=key;
 			String passwd=this.container.get(key).getPasswd();
-			String insertion="insert into t_userinfo values ("+username+","+passwd+")";
+			String insertion="insert into t_userinfo values (\'"+username+"\',\'"+passwd+"\')";
 			statement.executeUpdate(insertion);
 		}
 		connection.close();

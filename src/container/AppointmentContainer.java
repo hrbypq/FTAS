@@ -1,8 +1,11 @@
 package container;
 import java.util.*;
 
-import entity.Reservation;
-
+/**
+ * 预约订单容器
+ * @author czq
+ * @version 1.0
+ */
 public class AppointmentContainer {
 	private Map<String,Queue<String>> container=null;
 	//航班号 和 航班预约队列

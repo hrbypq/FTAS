@@ -1,4 +1,5 @@
 package container;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -60,8 +61,8 @@ public class FlightInfoContainer {
 			String landlocation=this.container.get(key).getLandlocation();
 			String passtime=this.container.get(key).getPasstime();
 			String passlocation=this.container.get(key).getPasslocation();
-			String insertion="insert into t_flightinfo values ("+flightname+","+company+","+price+","+takeofftime+","+takeofflocation+","+landtime+","+
-			landlocation+","+passtime+","+passlocation+")";
+			String insertion="insert into t_flightinfo values (\'"+flightname+"\',\'"+company+"\',"+price+",\'"+takeofftime+"\',\'"+takeofflocation+"\',\'"+landtime+"\',\'"+
+			landlocation+"\',\'"+passtime+"\',\'"+passlocation+"\')";
 			statement.executeUpdate(insertion);
 		}
 		connection.close();

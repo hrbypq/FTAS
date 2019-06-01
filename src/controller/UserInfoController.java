@@ -1,8 +1,8 @@
 package controller;
-import java.util.Map;
 
-import container.*;
+import java.util.Map;
 import entity.*;
+
 /**
  * ÓÃ»§ĞÅÏ¢¿ØÖÆÀà
  * @author
@@ -45,8 +45,10 @@ public class UserInfoController {
 	public UserInfo logIn(String name,String passwd) {
 		UserInfo obj=null;
 		obj=container.get(name);
-		if(passwd.equals(obj.getPasswd()))
-			obj=null;//ÃÜÂë´íÎó£¬µÇÂ½Ê§°Ü
+		if(obj!=null) {
+			if(!passwd.equals(obj.getPasswd()))
+				obj=null;//ÃÜÂë´íÎó£¬µÇÂ½Ê§°Ü
+		}
 		return obj;
 	}
 	

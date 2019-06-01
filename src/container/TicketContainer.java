@@ -46,12 +46,12 @@ public class TicketContainer {
 	public void writeDB() throws ClassNotFoundException, SQLException {
 		Connection connection=DBAccess.getConnection();
 		Statement statement=connection.createStatement();
-		String delete="delete from t_userinfo";
+		String delete="delete from t_ticket";
 		statement.executeUpdate(delete);
 		for(String key:this.container.keySet()) {
 			String flightname=key;
 			Integer remaining=this.container.get(key);
-			String insertion="insert into t_ticket values ("+flightname+","+remaining+")";
+			String insertion="insert into t_ticket values (\'"+flightname+"\',\'"+remaining+"\')";
 			statement.executeUpdate(insertion);
 		}
 		connection.close();

@@ -1,9 +1,7 @@
 package view;
+
 import controller.*;
 import java.util.Scanner;
-
-import javax.tools.Tool;
-
 import container.*;
 import entity.*;
 
@@ -13,81 +11,99 @@ import entity.*;
  * @version 1.0
  */
 public class UserInfoView {
-     private UserInfoContainer userinfoconatiner=null;
+     private UserInfoContainer userinfocontainer=null;
      private UserInfo currentuser=null;
      private UserInfoController usercontroller=null;
-     private Tools tool =null;
+     
 	/**
 	 * 构造方法
 	 */
-	public UserInfoView(UserInfoContainer userinfoconatiner,UserInfo currentuser) {
-		// TODO Auto-generated constructor stub;
-		this.currentuser=currentuser;
-		this.userinfoconatiner=userinfoconatiner;
-		this.usercontroller=new UserInfoController(userinfoconatiner.getContainer());
-		this.tool=new Tools();
+	public UserInfoView(UserInfoContainer userinfocontainer) {
+		this.userinfocontainer=userinfocontainer;
+		this.usercontroller=new UserInfoController(userinfocontainer.getContainer());
 	}
 	
 	/**
-	 * 登陆方法
+	 * 登录
+	 */
+	private void logIn() {
+		String name=null;
+		String passwd=null;
+		@SuppressWarnings("resource")
+		Scanner scanner=new Scanner(System.in);
+		while(true) {
+		    System.out.println("请输入用户名:");
+		    name=scanner.nextLine();
+		    System.out.println("请输入密码:");
+		    passwd=scanner.nextLine();
+		    currentuser=usercontroller.logIn(name,passwd);
+		    if(currentuser!=null) {
+		    	System.out.println("您好，"+currentuser.getUsername());
+		    	break;
+		    }
+		    System.out.println("密码错误或用户名不存在，请重新输入!");
+		}
+	}
+	
+	/**
+	 * 注册
 	 */
 	@SuppressWarnings("resource")
-	private void logIn() {
-		while(true) {
-			String name,passwd;
-			Scanner reader=new Scanner(System.in);
-		    System.out.println("请输入用户名:\n");
-		    name=reader.nextLine();
-		    System.out.println("请输入密码:\n");
-		    passwd=reader.nextLine();
-		    currentuser=usercontroller.logIn(name,passwd);
-		    reader.close();
-		    if(currentuser!=null)
-		    	return;
-		}
-	}
-	/**
-	 * 注册方法，注册后回退到主界面
-	 */
 	private void register() {
+		String name=null;
+		String passwd=null;
+		Scanner reader=new Scanner(System.in);
 		while(true) {
-			String name,passwd;
-			Scanner reader=new Scanner(System.in);
-		    System.out.println("请输入用户名:\n");
+		    System.out.println("请输入用户名:");
 		    name=reader.nextLine();
-		    System.out.println("请输入密码:\n");
+		    System.out.println("请输入密码:");
 		    passwd=reader.nextLine();
 		    boolean whether_succeed=usercontroller.createAccount(name, passwd);
-		    reader.close();
-		    if(whether_succeed)
-		    	return;
+		    if(whether_succeed) {
+		    	currentuser=userinfocontainer.getContainer().get(name);	
+		    	break;
+		    }
+		    System.out.println("用户名已存在!");
 		}
 	}
+	
 	/**
 	 * 返回已登录的用户
 	 */
 	public UserInfo getUser() {
 		return currentuser;
 	}
+	
 	/**
-	 * 菜单
+	 * 用户菜单
 	 */
-	public void showTouristMenu() {
-		System.out.println("输入1登陆用户，输入2注册用户");
-		Scanner reader=new Scanner(System.in);
-		int input=tool.inputInteger(1, 2);
+	public void showUserMenu() {
+		System.out.println("1.注册新用户\n2.用户登录\n请输入选项:");
+		int input=Tools.inputInteger(1, 2);
 		switch (input) {
 		case 1:
-			this.logIn();
+			this.register();
 			break;
 		case 2:
-			this.register();
-		default:
+			this.logIn();
 			break;
 		}
 	}
+	
+	/**
+	 * 管理员菜单
+	 */
 	public void showAdminMenu() {
-		System.out.println("欢迎登陆");
-		this.logIn();
+		System.out.println("请输入管理员密码:");
+		@SuppressWarnings("resource")
+		Scanner scanner=new Scanner(System.in);
+		String input=null; 
+		while(true) {
+			input=scanner.nextLine();
+			if(input.equals("123456"))
+				break;
+			System.out.println("密码错误，请重新输入");
+		}
+		//scanner.close();
 	}
 }

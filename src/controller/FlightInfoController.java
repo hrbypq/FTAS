@@ -16,7 +16,6 @@ public class FlightInfoController {
 	 */
 	public FlightInfoController(Map<String,FlightInfo> container) {
 		this.container=container;
-		// TODO Auto-generated constructor stub
 	}
 	//参数列表里的container 从FlightInfoContainer的get方法获得
 

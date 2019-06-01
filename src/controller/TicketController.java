@@ -234,7 +234,7 @@ public class TicketController {
         Collections.sort(targetflight, new Comparator<FlightInfo>(){
         	public int compare(FlightInfo o1, FlightInfo o2) {
 				int i = getTicketAmount(o1.getFlightname()) - getTicketAmount(o2.getFlightname());
-				return i;
+				return -1*i;
         	}
         });
         return targetflight;
@@ -282,19 +282,30 @@ public class TicketController {
 			return;
 		}
 		for(int i=0;i<flight.size();i++) {
-			System.out.println("第"+i+"推荐航班信息如下：");
+			System.out.println("第"+(i+1)+"推荐航班信息如下：");
 			printFlightInfo(flight.get(i));
 		}
 		return;
 	}
+	
 	private void printFlightInfo(FlightInfo flight) {
-	System.out.println("航班号："+flight.getFlightname());
-	System.out.println("起飞机场："+flight.getTakeofflocation());
-	System.out.println("起飞时间："+flight.getTakeofftime());
-	System.out.println("降落机场："+flight.getLandlocation());
-	System.out.println("降落时间："+flight.getTakeofflocation());
-	System.out.println("航空公司："+flight.getCompany());
-	System.out.println("价格："+flight.getPrice());
+		System.out.println("航班号："+flight.getFlightname());
+		System.out.println("起飞城市："+flight.getTakeofflocation());
+		System.out.println("起飞时间："+flight.getTakeofftime());
+		System.out.println("降落城市："+flight.getLandlocation());
+		System.out.println("降落时间："+flight.getLandtime());
+		System.out.println("航空公司："+flight.getCompany());
+		System.out.println("价格："+flight.getPrice());
+		System.out.println("余票量："+container.get(flight.getFlightname()));
+		if(flight.getPasslocation()==null||flight.getPasstime()==null||flight.getPasslocation().equals("null")||flight.getPasstime().equals("null")) {
+			System.out.println("经停城市：无");
+			System.out.println("经停时间：无");
+		}
+		else {
+			System.out.println("经停城市："+flight.getPasslocation());
+			System.out.println("经停时间："+flight.getPasstime());
+		}
+		System.out.println();
     }
 
 	//在添加或删除航班信息时同步更新票务表

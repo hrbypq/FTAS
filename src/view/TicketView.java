@@ -142,6 +142,7 @@ public class TicketView {
             choose=scanner.nextInt();
             if(choose==1) {
             	ticketcontroller.reserveTicket(flightname, currentuser.getUsername());
+            	System.out.println("已预约!\n");
             }
             else {
             	return;
@@ -176,6 +177,7 @@ public class TicketView {
 		System.out.println("降落时间："+flight.getLandtime());
 		System.out.println("航空公司："+flight.getCompany());
 		System.out.println("价格："+flight.getPrice());
+		System.out.println("余票量："+ticketcontianer.getContainer().get(flight.getFlightname()));
 		if(flight.getPasslocation()==null||flight.getPasstime()==null||flight.getPasslocation().equals("null")||flight.getPasstime().equals("null")) {
 			System.out.println("经停城市：无");
 			System.out.println("经停时间：无");

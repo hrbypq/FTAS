@@ -3,6 +3,7 @@ package view;
 import container.*;
 import controller.*;
 import java.sql.*;
+import java.util.*;
 import entity.*;
 
 /**
@@ -18,6 +19,7 @@ public class MainView {
 	public ReservationContainer reservationcontainer=null;
 	public UserInfo currentuser=null;
 	public AppointmentContainer appointmentcontainer=null;
+	public List<Message> messagebox=null;       //延误消息容器
 	
 	/**
 	 * 构造方法
@@ -40,6 +42,7 @@ public class MainView {
 		ticketcontainer=new TicketContainer();
 		reservationcontainer=new ReservationContainer();
 		appointmentcontainer=new AppointmentContainer();
+		messagebox=new ArrayList<Message>();
 		userinfocontainer.readDB();
 		reservationcontainer.readDB();
 		ticketcontainer.readDB();
@@ -56,6 +59,42 @@ public class MainView {
 		flightinfocontainer.writeDB();
 		ticketcontainer.writeDB();
 		reservationcontainer.writeDB();
+	}
+	
+	/**
+	 * 发布航班延误信息
+	 */
+	private void flightDelay() {
+		System.out.println("请输入航班号:");
+		@SuppressWarnings("resource")
+		Scanner scanner=new Scanner(System.in);
+		String flightname=scanner.nextLine();
+		boolean find=flightinfocontainer.getContainer().containsKey(flightname);
+		if(!find) {
+			System.out.println("航班不存在! 返回上一级菜单");
+			return;
+		}
+		System.out.println("请输入具体延误信息:");
+		String info=scanner.nextLine();
+		Message message=new Message(info,flightname);
+		messagebox.add(message);
+		System.out.println("延误信息已添加!");
+	}
+	
+	/**
+	 * 根据情况输出延误信息
+	 */
+	private void printDelayInfo() {
+		List<Reservation> reservation=reservationcontainer.getContainer().get(currentuser.getUsername());
+		for(Message delayflight:messagebox) {
+			for(Reservation reserveflight:reservation) {
+				if(reserveflight.getFlightname().equals(delayflight.getFlightname())) {
+					System.out.println(delayflight.getFlightname()+"航班延误");
+					System.out.println(delayflight.getInfo());
+					System.out.println();
+				}
+			}
+		}
 	}
 	
 	/**
@@ -118,7 +157,7 @@ public class MainView {
 					
 					//发布延误信息
 					case 2:{
-						System.out.println("施工中");
+						this.flightDelay();
 						break;
 					}
 					
@@ -131,6 +170,8 @@ public class MainView {
 			
 			//普通用户模式
 			else {
+				//先判断是否播报延误信息
+				this.printDelayInfo();
 				//用户菜单循环
 				while(true) {
 					System.out.println("用户菜单:\n1.票务相关\n2.航班信息查询\n3.返回主菜单");

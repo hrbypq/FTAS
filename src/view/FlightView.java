@@ -32,23 +32,6 @@ public class FlightView {
 	 * 用户菜单
 	 */
 	public void showTouristMenu() {
-//	    while(true) {
-//	    	System.out.println("1.机票业务\n2.航班信息查询\n3.返回上一层");
-//		    int input=Tools.inputInteger(1,3);
-//		    switch (input) {
-//		    case 1:
-//			   /*
-//			     *票务
-//			   */
-//			      break;
-//		     case 2:{
-//		    	 this.flightTourMenu();
-//		    	 break;
-//		     }
-//		     case 3:
-//		    	 return;
-//		     }
-//	    }
 	    this.flightTourMenu();
 	}
 	

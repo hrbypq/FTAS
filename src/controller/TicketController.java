@@ -19,10 +19,6 @@ public class TicketController {
 	private static Map<String,FlightInfo> containerFlight= new TreeMap<String,FlightInfo>();
 	private static Map<String,Queue<String>> containerAppointment= new TreeMap<String,Queue<String>>();
 	
-//	private static Map<String,List<Reservation>> containerList=null;
-//	private static Map<String,Integer> container=null;
-//	private static Map<String,FlightInfo> containerFlight= null;
-//	private static Map<String,Queue<String>> containerAppointment= null;
 	/** 
 	 * 构造方法
 	 */
@@ -31,8 +27,6 @@ public class TicketController {
 		TicketController.containerList=containerList;
 		TicketController.containerFlight=containerFlight;
 		TicketController.containerAppointment=containerAppointment;
-		// TODO Auto-generated constructor stub
-		
 	}
 
 	/**
@@ -124,12 +118,15 @@ public class TicketController {
 		if(!checkFlight(flightname)) {return false;}
 		if(containerAppointment.containsKey(flightname)) {
 			queue=containerAppointment.get(flightname);
+			if(queue.isEmpty())
+				return true;
 			username=queue.element();
 			queue.poll();
 			buyTicket(flightname,username);
 		}
 		return true;	
 	}
+	
 	/**
 	 * 预约买票
 	 * * @param flightname
@@ -137,17 +134,17 @@ public class TicketController {
 	 * @return
 	 * checked
 	 */
-
 	public void reserveTicket(String flightname,String username) {
 		Queue<String> queue=new LinkedList<String>();
-
 		if(containerAppointment.containsKey(flightname)) {
 			queue=containerAppointment.get(flightname);
 	    } 
 		if(!containerAppointment.containsKey(flightname)) {
-			queue=null;
+			containerAppointment.put(flightname,new LinkedList<String>());
+			queue=containerAppointment.get(flightname);
+			queue.add(username);
+			return;
 		}	
-		containerAppointment.put(flightname, queue);
 		queue.add(username);
 		return;
 	}

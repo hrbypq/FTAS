@@ -106,7 +106,7 @@ public class TicketView {
 		}
 		else {
 			System.out.println("ÄúÒÑ³É¹¦ÍËÆ±");
-			ticketcontroller.changeAppointment(flightname);
+			//ticketcontroller.changeAppointment(flightname);
 		}
 		return;
 	}

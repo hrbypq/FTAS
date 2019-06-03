@@ -86,12 +86,20 @@ public class MainView {
 	 */
 	private void printDelayInfo() {
 		List<Reservation> reservation=reservationcontainer.getContainer().get(currentuser.getUsername());
+		boolean signal=false;
 		for(Message delayflight:messagebox) {
 			for(Reservation reserveflight:reservation) {
 				if(reserveflight.getFlightname().equals(delayflight.getFlightname())) {
+					signal=true;
 					System.out.println(delayflight.getFlightname()+"∫Ω∞‡—”ŒÛ");
 					System.out.println(delayflight.getInfo());
 					System.out.println();
+					if(signal) {
+						TicketController ticketcontroller=new TicketController(ticketcontainer.getContainer(),reservationcontainer.getContainer(),flightinfocontainer.getContainer(),appointmentcontainer.getContainer());
+						String takeofflocation=flightinfocontainer.getContainer().get(delayflight.getFlightname()).getTakeofflocation();
+						String landlocation=flightinfocontainer.getContainer().get(delayflight.getFlightname()).getLandlocation();
+						ticketcontroller.recommendFlightView(takeofflocation, landlocation);
+					}
 				}
 			}
 		}

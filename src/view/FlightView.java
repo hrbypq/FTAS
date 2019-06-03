@@ -16,7 +16,8 @@ public class FlightView {
 	private UserInfo currentuser=null;
 	private FlightInfoController flightcontroller=null;
 	private TicketController ticketcontroller=null;
-	private TicketContainer ticketcontainer=null;
+	//private TicketContainer ticketcontainer=null;
+	private Airline airline=null;
 	
 	/**
 	 * 构造方法
@@ -26,6 +27,7 @@ public class FlightView {
 		this.flightinfocontainer=flightinfocontainer;
 		ticketcontroller=new TicketController(ticketcontainer.getContainer(),null,flightinfocontainer.getContainer(),null);
 		flightcontroller=new FlightInfoController(flightinfocontainer.getContainer());
+		airline=new Airline(flightinfocontainer.getContainer());
 	}
 	
 	/**
@@ -78,17 +80,14 @@ public class FlightView {
 	 */
 	private void flightTourMenu() {
 		while (true) {
-			System.out.println("1.根据航班号查询航班信息\n2.航班推荐\n3.返回上一层");
+			System.out.println("1.根据航班号查询航班信息\n2.航班推荐(针对无直达的航线)\n3.返回上一层");
 			int input=Tools.inputInteger(1, 3);
 			switch (input) {
 			case 1:
 				this.searchFlight();
 				break;
 			case 2:{
-				/*
-				 * 推荐
-				 */
-				System.out.println("施工中");
+				this.recommendFlight();
 				break;
 			}
 			case 3:
@@ -279,7 +278,7 @@ public class FlightView {
 	@SuppressWarnings("resource")
 	private void deleteFlight() {
 		Scanner scanner=new Scanner(System.in);
-		System.out.println("请输入航班号\n");
+		System.out.println("请输入航班号:");
 		String flightname=scanner.nextLine();
 		boolean whether_suceed=flightcontroller.deleteFlightInfo(flightname);
 		if(whether_suceed) {
@@ -290,5 +289,30 @@ public class FlightView {
 			System.out.println("删除失败\n");
 	}
 
+	private void recommendFlight() {
+		SystemController systemcontroller=new SystemController(airline,flightinfocontainer.getContainer());
+		System.out.println("请输入起飞城市:");
+		@SuppressWarnings("resource")
+		Scanner scanner=new Scanner(System.in);
+		String takeoffcity=scanner.nextLine();
+		System.out.println("请输入目的地城市:");
+		String landcity=scanner.nextLine();
+		if(!systemcontroller.comparePrice(takeoffcity, landcity)) {
+			System.out.println("两城市间无航线!");
+			return;
+		}
+		System.out.println("按价格计算的推荐航班：");
+		this.printInfo(systemcontroller.getResult1());
+		System.out.println("中转城市："+systemcontroller.getMidCity()+'\n');
+		this.printInfo(systemcontroller.getResult2());
+		System.out.println();
+		systemcontroller.compareTime(takeoffcity, landcity);
+		System.out.println("按时间计算的推荐航班：");
+		this.printInfo(systemcontroller.getResult1());
+		System.out.println("中转城市："+systemcontroller.getMidCity());
+		this.printInfo(systemcontroller.getResult2());
+		System.out.println();
+	}
+	
 }
 	

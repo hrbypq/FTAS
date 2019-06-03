@@ -269,7 +269,7 @@ public class TicketController {
      * @param takeofflocation
      * @param landlocation
      */
-	private void recommendFlightView(String takeofflocation, String landlocation) {
+	public void recommendFlightView(String takeofflocation, String landlocation) {
 		List<FlightInfo> flight=new ArrayList<FlightInfo>();
 		flight=searchFlightByCity(takeofflocation, landlocation);
 		for(int i=0;i<flight.size();i++) {
